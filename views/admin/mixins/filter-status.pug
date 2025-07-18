@@ -1,0 +1,12 @@
+
+mixin filterStatus(filterStatus, status)
+    form(method="get", action=prefixAdmin + '/products', class="row g-2 mb-3 align-items-center")
+      .col-auto
+        label.form-label(for="status") Lọc theo trạng thái:
+      .col-auto
+        select.form-select(name="status", id="status", onchange="this.form.submit()")
+          each item in filterStatus
+            option(
+              value=item.status,
+              selected=(status === item.status)
+            ) #{item.name}

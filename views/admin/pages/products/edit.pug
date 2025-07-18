@@ -1,0 +1,62 @@
+extends ../../layouts/default.pug 
+include ../../mixins/alert.pug
+
+block main 
+    
+    +alert-error(5000)
+    +alert-success(5000)
+    h1 Chỉnh sửa sản phẩm
+    form(
+        action=prefixAdmin + '/products/edit/' + product._id + '?_method=PATCH'
+        method='POST'
+        id="form-create-product"
+        enctype="multipart/form-data"
+    
+    ) 
+        .form-group
+            label(for="title") Tên sản phẩm
+            input(type="text", name="title", id="title", class="form-control", required, value=product.title)
+        
+        .form-group
+            label(for="price") Giá sản phẩm
+            input(type="number", name="price", id="price", class="form-control", value=product.price, min="0")
+        
+        .form-group
+            label(for="discount") Giảm giá
+            input(type="number", name="discountPercentage", id="discount", class="form-control", min="0", max="100", value=product.discountPercentage)
+
+        div(class="form-group" upload-image)
+            label(for="thumbnail") Ảnh đại diện
+            // Bọc ảnh và nút X trong div position-relative
+            div(style="position:relative; display:inline-block;")
+                // Ảnh hiện tại luôn hiển thị nếu có
+                if product.thumbnail
+                    img(src=product.thumbnail, alt="Ảnh hiện tại", style="width:100px; height:100px; object-fit:cover; margin-bottom:8px;", id="current-thumbnail")
+                // Ảnh xem trước khi chọn file mới
+                img(src="", alt="", upload-image-preview, style="display: none; width:100px; height:100px; object-fit:cover; position:absolute; top:0; left:0; z-index:1;")
+                button(type="button", class="btn btn-danger btn-sm position-absolute", style="display:none; top:0; right:0; z-index:2;", upload-image-remove) ×
+            input(type="file", name="thumbnail", id="thumbnail", class="form-control-file", accept="image/*", upload-image-input)
+        .form-group
+            label(for="description") Mô tả sản phẩm
+            textarea(name="description", id="description", class="form-control", rows="4")= product.description
+        
+        .form-group
+            label(for="stock") Số lượng tồn kho
+            input(type="number", name="stock", id="stock", class="form-control", min="0", value=product.stock)
+        
+        .form-group
+            label(for="position") Vị trí
+            input(type="number", name="position", id="position", class="form-control", min="1", placehoder="Tự động tăng dần", value=product.position)
+        
+        .form-group.form-check.form-check-inline
+            input(type="radio", name="status", id="statusActive", class="form-check-input", value="active", checked=product.status === 'active')
+            label.form-check-label(for="statusActive") Hoạt động
+        .form-group.form-check.form-check-inline
+            input(type="radio", name="status", id="statusInactive", class="form-check-input", value="inactive", checked=product.status === 'inactive')
+            label.form-check-label(for="statusInactive") Không hoạt động
+        .form-group
+            button.btn.btn-primary(type="submit") Sửa sản phẩm
+        
+    
+
+    script(src="/admin/js/product.js") 

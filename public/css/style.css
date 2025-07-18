@@ -1,0 +1,39 @@
+header.navbar {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  background: #fff;
+  padding: 0.5rem 0;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #2c3e50 !important;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand img {
+  margin-right: 10px;
+}
+
+.navbar-nav .nav-link {
+  color: #2c3e50 !important;
+  font-weight: 500;
+  margin-left: 1rem;
+  transition: color 0.2s;
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link:hover {
+  color: #007bff !important;
+  text-decoration: underline;
+}
+
+.navbar-toggler {
+  border: none;
+}
+
+@media (max-width: 991.98px) {
+  .navbar-nav .nav-link {
+    margin-left: 0;
+    margin-top: 0.5rem;

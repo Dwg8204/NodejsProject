@@ -1,0 +1,103 @@
+extends ../../layouts/default.pug 
+include ../../mixins/filter-status.pug
+include ../../mixins/search.pug
+include ../../mixins/pagination.pug
+block main
+  .box-head Quản lý sản phẩm
+  .mb-3.text-end
+    a.btn.btn-primary(href=prefixAdmin + '/products/create') Thêm sản phẩm
+     // Bộ lọc trạng thái
+  +filterStatus(filterStatus, status)
+  +search(keyword)
+  .block.mb-3
+    form#bulk-status-form(
+      action=prefixAdmin + '/products/change-multi?_method=PATCH', 
+      method="POST", 
+      form-change-multi
+      )
+      .row.align-items-center
+        .form-group 
+          select(name="type", class="form-control")
+            option(value="", selected=filterStatus === '') Chọn trạng thái
+            option(value="active", selected=filterStatus === 'active') Kích hoạt
+            option(value="inactive", selected=filterStatus === 'inactive') Ẩn
+            option(value="delete", selected=filterStatus === 'deleted') Xoá
+            option(value="change-position", selected=filterStatus === 'change-position') Thay đổi vị trí
+        .form-group 
+          //- input(
+          //-   type="text",
+          //-   name="ids",
+          //-   class="form-control d-none",
+          //-   value=""
+          //- )
+      
+        .form-group
+          button.btn.btn-success(type="submit") Đổi trạng thái
+  table(class="table table-striped table-bordered"
+    checkbox-multi
+  )
+    thead
+      tr
+        th 
+          input#check-all(type="checkbox",name="checkall", onclick="toggleAllCheckboxes(this)")
+        th STT
+        th Ảnh
+        th Tên sản phẩm
+        th Giá
+        th Vị trí
+        th Danh mục
+        th Trạng thái
+        th Hành động
+    tbody
+        each product, idx in products
+          tr
+            td
+              input(type="checkbox", name="ids[]", value=product._id, form="bulk-status-form")
+            td #{idx + 1}
+            td 
+              if product.thumbnail
+                img(src=product.thumbnail, alt=product.title, style="width:60px;height:60px;object-fit:cover;")
+              else
+                span.text-muted Không có ảnh
+            td= product.title
+            td= product.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })
+            td
+              input(
+                type="number",
+                name="position",
+                data-id=product._id,
+                style ="width: 80px;",
+                value=product.position || 0,
+                class="form-control",
+                min="1"
+              )
+            td= (product.category && product.category.name) ? product.category.name : 'Chưa phân loại'
+            td 
+              if product.status === 'active'
+                  span.badge.bg-success(
+                    style="cursor:pointer;"
+                    data-id=product._id
+                    data-status="inactive"
+                    onclick="changeStatus(this)"
+                  ) Kích hoạt
+              else
+                span.badge.bg-secondary(
+                  style="cursor:pointer;"
+                  data-id=product._id
+                  data-status="active"
+                  onclick="changeStatus(this)"
+                ) Ẩn
+            td
+              a.btn.btn-sm.btn-secondary(href=prefixAdmin + '/products/detail/' + product._id) Chi tiết
+              a.btn.btn-sm.btn-warning(href=prefixAdmin + '/products/edit/' + product._id) Sửa
+              form.d-inline(
+                  action=prefixAdmin + '/products/delete/' + product._id + '?_method=DELETE',
+                  method="POST",
+                  onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này?')"
+                )
+                  button.btn.btn-sm.btn-danger(type="submit") Xóa
+                    // Phân trang
+  +pagination(pagination)
+
+
+  script(src=prefixAdmin + '/js/products.js')

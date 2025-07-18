@@ -1,0 +1,17 @@
+extends ../../layouts/default.pug 
+
+block main 
+    h1 Chi tiết sản phẩm
+    if product
+        p Tên sản phẩm: #{product.title}
+        p Giá: #{product.price}
+        p Mô tả: #{product.description}
+        p Số lượng tồn kho: #{product.stock}
+        p Vị trí: #{product.position}
+        p Trạng thái: #{product.status}
+        if product.thumbnail
+            p Ảnh đại diện:
+            img(src=product.thumbnail, alt=product.title)
+        a(href="/admin/products/edit/" + product._id) Sửa sản phẩm
+    else
+        p Sản phẩm không tồn tại

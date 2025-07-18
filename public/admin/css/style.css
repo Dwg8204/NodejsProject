@@ -1,0 +1,51 @@
+.body {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sider {
+  width: 220px;
+  background: #23272b;
+  min-height: 100vh;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.10);
+  padding: 2rem 1rem 1rem 1rem;
+  flex-shrink: 0;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.sider .inner-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sider .inner-menu li {
+  margin-bottom: 1.2rem;
+}
+
+.sider .inner-menu a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+
+.sider .inner-menu a:hover,
+.sider .inner-menu a.active {
+  background: #007bff;
+  color: #fff;
+}
+
+.sider .inner-menu li:last-child {
+  margin-bottom: 0;
+
+.main {
+  flex: 1;
+  padding: 2rem;
+  background: #fff;
+  min-height: 100vh;
+}

@@ -1,0 +1,10 @@
+mixin pagination(pagination)
+    nav(aria-label="Pagination")
+        ul.pagination.justify-content-center.mt-4
+            li.page-item(class=(pagination.currentPage === 1 ? 'disabled' : ''))
+                a.page-link(href="#", data-page=(pagination.currentPage - 1)) Previous
+            each page in Array.from({ length: pagination.totalPage }, (_, i) => i + 1)
+                li.page-item(class=(page === pagination.currentPage ? 'active' : ''))
+                    a.page-link(href="#", data-page=page) #{page}
+            li.page-item(class=(pagination.currentPage === pagination.totalPage ? 'disabled' : ''))
+                a.page-link(href="#", data-page=(pagination.currentPage + 1), data-total-pages=pagination.totalPage) Next

@@ -1,0 +1,14 @@
+extends ../../layouts/default.pug 
+
+block main 
+    h1 Sản phẩm chi tiết
+    p Thông tin chi tiết về sản phẩm: #{product.title}
+    img(src=product.thumbnail, alt=product.title, style="width:100%; height:auto;")
+    p Giá: #{product.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+    if product.priceOld
+      p Giá cũ: #{product.priceOld.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+    if product.discountPercentage > 0
+      p Giảm giá: #{product.discountPercentage}%
+    p Mô tả: #{product.description}
+    a(href="/products") Quay lại danh sách sản phẩm
+    
