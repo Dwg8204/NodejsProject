@@ -33,6 +33,25 @@ block main
       
         .form-group
           button.btn.btn-success(type="submit") Đổi trạng thái
+      .form-group.mb-3
+    form#sort-form(
+      action=prefixAdmin + '/products'
+      method="GET"
+      style="display:inline-block;"
+    )
+      label(for="sort") Sắp xếp:
+      select.form-control.d-inline-block.w-auto(name="sort", id="sort", sort-select)
+        option(value="") -- Chọn sắp xếp --
+        option(value="position_asc", selected=(sort === 'position_asc')) Vị trí tăng dần
+        option(value="position_desc", selected=(sort === 'position_desc')) Vị trí giảm dần
+        option(value="price_asc", selected=(sort === 'price_asc')) Giá tăng dần
+        option(value="price_desc", selected=(sort === 'price_desc')) Giá giảm dần
+        option(value="title_asc", selected=(sort === 'title_asc')) Tiêu đề A-Z
+        option(value="title_desc", selected=(sort === 'title_desc')) Tiêu đề Z-A
+      button( 
+        class="btn btn-primary ms-2",
+        id= "sort-clear"
+      ) Clear
   table(class="table table-striped table-bordered"
     checkbox-multi
   )

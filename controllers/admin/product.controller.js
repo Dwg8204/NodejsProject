@@ -18,6 +18,31 @@ module.exports.index = async (req, res) => {
     if (keyword) {
         find.title = search.regex;
     }
+
+    // Sắp xếp
+    let sort = {};
+    switch (req.query.sort) {
+        case 'position_asc':
+            sort = { position: 1 };
+            break;
+        case 'position_desc':
+            sort = { position: -1 };
+            break;
+        case 'price_asc':
+            sort = { price: 1 };
+            break;
+        case 'price_desc':
+            sort = { price: -1 };
+            break;
+        case 'title_asc':
+            sort = { title: 1 };
+            break;
+        case 'title_desc':
+            sort = { title: -1 };
+            break;
+        default:
+            sort = { position: 1 }; // mặc định
+    }
    
 //    Phân trang
     let pagination = {
@@ -35,7 +60,7 @@ module.exports.index = async (req, res) => {
     console.log(totalProducts);
     const products = await Product.find(
             find
-        ).sort({ position: 1 }) 
+        ).sort(sort) 
         .limit(pagination.limitItem)
         .skip(pagination.skip);
     res.render('admin/pages/products/index', {
@@ -44,7 +69,8 @@ module.exports.index = async (req, res) => {
         status: status,
         filterStatus: filterStatus,
         keyword: keyword,
-        pagination: pagination
+        pagination: pagination,
+        sort: req.query.sort || ''
     });
 }
 

@@ -105,3 +105,25 @@ if (formChangeMulti) {
 }
 
 
+document.addEventListener('DOMContentLoaded', function() {
+  const clearBtn = document.getElementById('sort-clear');
+  const sortSelect = document.getElementById('sort');
+  const sortForm = document.getElementById('sort-form');
+  if (clearBtn && sortSelect && sortForm) {
+    clearBtn.addEventListener('click', function() {
+      sortSelect.value = '';
+      sortForm.submit();
+    });
+  }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  var sortSelect = document.querySelector('[sort-select]');
+  if (sortSelect) {
+    sortSelect.addEventListener('change', function() {
+      // Tìm form cha gần nhất và submit
+      var form = sortSelect.closest('form');
+      if (form) form.submit();
+    });
+  }
+});
