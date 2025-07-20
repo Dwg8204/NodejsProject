@@ -1,0 +1,38 @@
+extends ../../layouts/default.pug 
+include ../../mixins/pagination.pug
+
+
+block main
+  .box-head Quản lý danh mục sản phẩm
+  .mb-3.text-end
+    a.btn.btn-primary(href=prefixAdmin + '/products-category/create') Thêm danh mục sản phẩm
+  table.table.table-bordered.table-striped
+    thead
+      tr
+        th Tên danh mục
+        th Mô tả
+        th Trạng thái
+        th Hành động
+    tbody
+      each category in productsCategory
+        tr
+          td #{category.title}
+          td #{category.description}
+          td
+            if category.status === 'active'
+              span.badge.bg-success Đang hoạt động
+            else
+              span.badge.bg-danger Ngừng hoạt động
+          td
+            a.btn.btn-sm.btn-info(href=prefixAdmin + '/products-category/edit/' + category.id) Sửa
+            a.btn.btn-sm.btn-danger(href=prefixAdmin + '/products-category/delete/' + category.id) Xóa
+  .mt-3
+    +pagination(pagination)
+
+  
+  
+  
+  
+
+
+  script(src=prefixAdmin + '/js/products.js')

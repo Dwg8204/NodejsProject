@@ -41,7 +41,7 @@ module.exports.index = async (req, res) => {
             sort = { title: -1 };
             break;
         default:
-            sort = { position: 1 }; // mặc định
+            sort = { position: 1 }; 
     }
    
 //    Phân trang

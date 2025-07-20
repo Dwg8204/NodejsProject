@@ -37,9 +37,9 @@ block main
                 button(type="button", class="btn btn-danger btn-sm position-absolute", style="display:none; top:0; right:0; z-index:2;", upload-image-remove) ×
             input(type="file", name="thumbnail", id="thumbnail", class="form-control-file", accept="image/*", upload-image-input)
         .form-group
-            label(for="description") Mô tả sản phẩm
-            textarea(name="description", id="description", class="form-control", rows="4")= product.description
-        
+            label(for="editor-container") Mô tả sản phẩm
+            #editor-container(style="height: 300px; margin-bottom: 15px;")
+            textarea(name="description", id="description", style="display: none;")= product.description
         .form-group
             label(for="stock") Số lượng tồn kho
             input(type="number", name="stock", id="stock", class="form-control", min="0", value=product.stock)
@@ -59,4 +59,6 @@ block main
         
     
 
-    script(src="/admin/js/product.js") 
+    block scripts
+        script(src="/admin/js/quill-editor.js")
+        script(src="/admin/js/products.js")

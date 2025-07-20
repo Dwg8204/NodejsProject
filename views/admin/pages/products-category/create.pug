@@ -1,27 +1,31 @@
 extends ../../layouts/default.pug 
 include ../../mixins/alert.pug
+
 block main 
     
     +alert-error(5000)
-    h1 Thêm sản phẩm mới
+    h1 Thêm danh mục mới
     form(
-        action=prefixAdmin + '/products/create'
+        action=prefixAdmin + '/products-category/create'
         method='POST'
-        id="form-create-product"
+        id="form-create-category"
         enctype="multipart/form-data"
-    
     ) 
         .form-group
-            label(for="title") Tên sản phẩm
+            label(for="title") Tên danh mục
             input(type="text", name="title", id="title", class="form-control", required)
         
         .form-group
-            label(for="price") Giá sản phẩm
-            input(type="number", name="price", id="price", class="form-control",value="0", min="0" )
+            label(for="editor-container") Mô tả
+            #editor-container(style="height: 300px; margin-bottom: 15px;")
+            textarea(name="description", id="description", class="form-control", rows="4",style="display: none;")
         
-        .form-group
-            label(for="discount") Giảm giá
-            input(type="number", name="discountPercentage", id="discount", class="form-control", value="0", min="0", max="100")
+        //- .form-group
+        //-     label(for="parent") Danh mục cha
+        //-     select(class="form-control", id="parent", name="parent")
+        //-         option(value="") Chọn danh mục cha
+        //-         each category in categories
+        //-             option(value=category._id)= category.title
 
         div(
             class="form-group"
@@ -34,30 +38,20 @@ block main
             // Nút X để huỷ ảnh
             button(type="button", class="btn btn-danger btn-sm position-absolute", style="display:none;", upload-image-remove) ×
             img(src="", alt="", upload-image-preview, style="display: none; width:100px; height:100px; object-fit:cover;")
+    
         .form-group
-            label(for="editor-container") Mô tả sản phẩm
-            #editor-container(style="height: 300px; margin-bottom: 15px;")
-            textarea(name="description", id="description", class="form-control", rows="4",style="display: none;")
-        
-        .form-group
-            label(for="stock") Số lượng tồn kho
-            input(type="number", name="stock", id="stock", class="form-control", value="0", min="0")
-        
-        .form-group
-            label(for="position") Vị trí
-            input(type="number", name="position", id="position", class="form-control", min="1", placehoder="Tự động tăng dần")
+            label(for="sort") Thứ tự
+            input(type="number", name="position", id="position", class="form-control", min="1")
         
         .form-group.form-check.form-check-inline 
             input(type="radio", name="status", id="statusActive", class="form-check-input", value="active", checked)
-            label.form-check-label(for="statusActive") Hoat động
+            label.form-check-label(for="statusActive") Hoạt động
         .form-group.form-check.form-check-inline
             input(type="radio", name="status", id="statusInactive", class="form-check-input", value="inactive")
             label.form-check-label(for="statusInactive") Không hoạt động
         .form-group
-            button.btn.btn-primary(type="submit") Tạo sản phẩm
+            button.btn.btn-primary(type="submit") Tạo danh mục
         
-    
-
     block scripts
         script(src="/admin/js/quill-editor.js")
         script(src="/admin/js/products.js")

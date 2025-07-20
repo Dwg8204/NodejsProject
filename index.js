@@ -6,6 +6,8 @@ const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const multer  = require('multer')
 const app = express();
+const path = require('path');
+
 app.use(methodOverride('_method'))
 app.use(cookieParser())
 
@@ -36,6 +38,9 @@ app.use((req, res, next) => {
     res.locals.message = req.flash();
     next();
 });
+
+// tinymce
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 // app local variables
 app.locals.prefixAdmin = systemConfig.PrefixAdmin;
 
