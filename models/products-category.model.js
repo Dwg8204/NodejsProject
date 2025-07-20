@@ -7,6 +7,11 @@ const productsCategorySchema = new mongoose.Schema({
     description : String,
     thumbnail : String,
     status : String,
+    parentId : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'ProductsCategory',
+        default: null
+    },
     position : Number,
     slug: {
         type: String,

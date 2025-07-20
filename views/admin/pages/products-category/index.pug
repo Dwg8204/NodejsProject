@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug 
 include ../../mixins/pagination.pug
+include ../../mixins/select-tree.pug
 
 
 block main
@@ -14,18 +15,7 @@ block main
         th Trạng thái
         th Hành động
     tbody
-      each category in productsCategory
-        tr
-          td #{category.title}
-          td #{category.description}
-          td
-            if category.status === 'active'
-              span.badge.bg-success Đang hoạt động
-            else
-              span.badge.bg-danger Ngừng hoạt động
-          td
-            a.btn.btn-sm.btn-info(href=prefixAdmin + '/products-category/edit/' + category.id) Sửa
-            a.btn.btn-sm.btn-danger(href=prefixAdmin + '/products-category/delete/' + category.id) Xóa
+      +category-tree(productsCategory)
   .mt-3
     +pagination(pagination)
 

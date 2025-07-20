@@ -1,0 +1,26 @@
+mixin select-tree(productsCategory, level = 1)
+    each category in productsCategory
+        - const prefix = Array(level).join('--- ')
+        option(value=category._id) #{prefix} #{category.title}
+        if category.children && category.children.length > 0
+            +select-tree(category.children, level + 1)
+
+//- Mixin hiển thị danh mục dạng cây trong bảng
+mixin category-tree(categories, prefix = "")
+  each category in categories
+    tr
+      td 
+        span #{prefix} #{category.title}
+      td !{category.description && category.description.length > 100 ? category.description.slice(0, 100) + '...' : category.description}
+      td
+        if category.status === 'active'
+          span.badge.bg-success Hoạt động
+        else
+          span.badge.bg-danger Không hoạt động
+      td
+        a.btn.btn-warning.btn-sm(href=prefixAdmin + '/products-category/detail/' + category.id) Chi tiết
+        a.btn.btn-primary.btn-sm.ms-1(href=prefixAdmin + '/products-category/edit/' + category.id) Sửa
+        a.btn.btn-danger.btn-sm.ms-1(href="javascript:void(0)", data-bs-toggle="modal", data-bs-target="#deleteModal", data-id=category.id, button-delete) Xóa
+    
+    if category.children && category.children.length > 0
+      +category-tree(category.children, prefix + "— ")
