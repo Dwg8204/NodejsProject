@@ -1,0 +1,23 @@
+extends ../../layouts/default.pug 
+include ../../mixins/pagination.pug
+
+block main
+  .box-head Danh sách nhóm quyền
+  .mb-3.text-end
+    a.btn.btn-primary(href=prefixAdmin + '/roles/create') Thêm nhóm quyền
+  table.table.table-bordered.table-striped
+    thead
+      tr
+        th Tên nhóm quyền
+        th Mô tả
+        th Hành động
+    tbody
+        each role in roles
+            tr
+            td #{role.title}
+            td !{role.description}
+            td
+                a.btn.btn-sm.btn-info(href=prefixAdmin + '/roles/' + role._id) Xem
+                a.btn.btn-sm.btn-warning(href=prefixAdmin + '/roles/' + role._id + '/edit') Sửa
+                a.btn.btn-sm.btn-danger(href=prefixAdmin + '/roles/' + role._id + '/delete') Xóa
+

@@ -1,0 +1,27 @@
+extends ../../layouts/default.pug 
+include ../../mixins/alert.pug
+
+
+block main 
+    
+    +alert-error(5000)
+    h1 Thêm nhóm quyền mới
+    form(
+        action=prefixAdmin + '/roles/create'
+        method='POST'
+        id="form-create-role"
+    ) 
+        .form-group
+            label(for="title") Tên nhóm quyền
+            input(type="text", name="title", id="title", class="form-control", required)
+        
+        .form-group
+            label(for="editor-container") Mô tả
+            #editor-container(style="height: 300px; margin-bottom: 15px;")
+            textarea(name="description", id="description", class="form-control", rows="4",style="display: none;")
+        .form-group
+            button.btn.btn-primary(type="submit") Tạo nhóm quyền
+
+    block scripts
+        script(src="/admin/js/quill-editor.js")
+        script(src="/admin/js/products.js")

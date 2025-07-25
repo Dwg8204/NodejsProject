@@ -1,0 +1,115 @@
+extends ../../layouts/default.pug 
+include ../../mixins/alert.pug
+
+block main 
+    +alert-success(5000)
+    h1(class="mb-4") Phân quyền 
+    div(data-records=roles)
+    div(class="text-right mb-4")
+        button(
+            class="btn btn-primary"
+            type="submit"
+            button-submit
+        ) Cập nhật
+    table(class="table table-hover table-sm"
+        table-permission
+    )
+            thead.table-light
+                tr
+                    th.align-middle Tính năng
+                    each role in roles
+                        th.text-center.align-middle #{role.title}
+            tbody
+                tr(data-name="id" class="bg-light d-none")
+                    td 
+                    each role in roles
+                        td.text-center
+                            input(
+                                type="text"
+                                name="id"
+                                value = role._id
+                            )
+                tr.bg-light
+                    td(colspan=roles.length + 1)
+                        strong.d-block.p-2 QUẢN LÝ SẢN PHẨM
+
+                tr(data-name="product-view")
+                    td.ps-4 Xem danh sách sản phẩm
+                    each role in roles
+                        td.text-center
+                            input.form-check-input(
+                                type="checkbox"
+                            )
+
+                tr(data-name="product-create")
+                    td.ps-4 Thêm sản phẩm
+                    each role in roles
+                        td.text-center
+                            input.form-check-input(
+                                type="checkbox"
+                            )
+
+                tr(data-name="product-update")
+                    td.ps-4 Sửa sản phẩm
+                    each role in roles
+                        td.text-center
+                            input.form-check-input(
+                                type="checkbox"
+                            )
+
+                tr(data-name="product-delete")
+                    td.ps-4 Xóa sản phẩm
+                    each role in roles
+                        td.text-center
+                            input.form-check-input(
+                                type="checkbox"
+                            )
+
+                // Nhóm tính năng danh mục
+                tr.bg-light
+                    td(colspan=roles.length + 1)
+                        strong.d-block.p-2 QUẢN LÝ DANH MỤC
+
+                tr(data-name="product-category-view")
+                    td.ps-4 Xem danh sách danh mục
+                    each role in roles
+                        td.text-center
+                            input.form-check-input(
+                                type="checkbox"
+                            )
+
+                tr(data-name="product-category-create")
+                    td.ps-4 Thêm danh mục
+                    each role in roles
+                        td.text-center
+                            input.form-check-input(
+                                type="checkbox"
+                            )
+                tr(data-name="product-category-update")
+                    td.ps-4 Sửa danh mục
+                    each role in roles
+                        td.text-center
+                            input.form-check-input(
+                                type="checkbox"
+                            )
+                tr(data-name="product-category-delete")
+                    td.ps-4 Xoá danh mục
+                    each role in roles
+                        td.text-center
+                            input.form-check-input(
+                                type="checkbox"
+                            )
+    
+    form(
+        id = "form-change-permissions"
+        method="POST"
+        action=prefixAdmin + "/roles/permissions?_method=PATCH" 
+    ) 
+        div(class= "form-group mb-3 d-none")
+            input(
+                type="text"
+                class="form-control"
+                name="permissions"
+        )
+    
+    script(src="/admin/js/role.js") 

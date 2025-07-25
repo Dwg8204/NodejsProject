@@ -4,30 +4,23 @@ document.addEventListener('DOMContentLoaded', function() {
       theme: 'snow',
       modules: {
         toolbar: [
-          ['bold', 'italic', 'underline', 'strike'],
-          ['blockquote', 'code-block'],
-          [{ 'header': 1 }, { 'header': 2 }],
-          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-          [{ 'script': 'sub'}, { 'script': 'super' }],
-          [{ 'indent': '-1'}, { 'indent': '+1' }],
-          ['link', 'image'],
-          ['clean']
+          ['bold', 'italic', 'underline'],
+          ['link', 'blockquote', 'code-block'],
+          [{ 'list': 'ordered' }, { 'list': 'bullet' }]
         ]
-      },
-      placeholder: 'Nhập mô tả sản phẩm...'
+      }
     });
     
-    var description = document.getElementById('description').value;
-    if (description) {
-      quill.root.innerHTML = description;
-    }
-    
-    var forms = document.querySelectorAll('#form-create-product, #form-edit-product');
+    // Lắng nghe tất cả các form có editor
+    var forms = document.querySelectorAll('form');
     forms.forEach(function(form) {
       if (form) {
         form.addEventListener('submit', function() {
           var description = document.getElementById('description');
-          description.value = quill.root.innerHTML;
+          if (description) {
+            description.value = quill.root.innerHTML;
+            console.log("Đã cập nhật nội dung textarea:", description.value);
+          }
         });
       }
     });
