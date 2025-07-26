@@ -1,0 +1,29 @@
+extends ../../layouts/default.pug 
+include ../../mixins/pagination.pug
+
+block main
+  .box-head Danh sách tài khoản
+  .mb-3.text-end
+    a.btn.btn-primary(href=prefixAdmin + '/accounts/create') Thêm tài khoản
+  table.table.table-bordered.table-striped
+    thead
+      tr
+        th Tên tài khoản
+        th Email
+        th Số điện thoại
+        th Vai trò
+        th Hành động
+    tbody
+        each account in accounts
+            tr
+            td #{account.fullName}
+            td #{account.email}
+            td #{account.phone}
+            td
+              - var role = roles && roles.find(r => r._id.toString() === account.role_id)
+              | #{role ? role.title : 'Chưa phân quyền'}
+            td
+                a.btn.btn-sm.btn-info(href=prefixAdmin + '/accounts/' + account._id) Xem
+                a.btn.btn-sm.btn-warning(href=prefixAdmin + '/accounts/' + account._id + '/edit') Sửa
+                a.btn.btn-sm.btn-danger(href=prefixAdmin + '/accounts/' + account._id + '/delete') Xóa
+

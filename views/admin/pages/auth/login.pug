@@ -1,0 +1,22 @@
+extends ../../layouts/auth.pug 
+include ../../mixins/alert.pug
+
+block main
+    +alert-error(5000)
+    h1 Đăng nhập
+    form(
+        action=prefixAdmin + '/auth/login'
+        method='POST'
+        id="form-login"
+    ) 
+        .form-group
+        label(for="email") Email
+        input(type="email", name="email", id="email", class="form-control", required)
+        .form-group
+        label(for="password") Mật khẩu
+        input(type="password", name="password", id="password", class="form-control", required)
+        .form-group
+        button.btn.btn-primary(type="submit") Đăng nhập
+    
+    block scripts
+        script(src="/admin/js/auth.js")

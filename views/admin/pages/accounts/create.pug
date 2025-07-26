@@ -1,0 +1,49 @@
+extends ../../layouts/default.pug 
+include ../../mixins/alert.pug
+
+
+block main 
+    +alert-error(5000)
+    h1 Thêm tài khoản mới
+    form(
+        action=prefixAdmin + '/accounts/create'
+        method='POST'
+        id="form-create-account"
+        enctype="multipart/form-data"
+
+    ) 
+        .form-group
+            label(for="fullName") Họ và tên
+            input(type="text", name="fullName", id="fullName", class="form-control", required)
+        .form-group
+            label(for="email") Email
+            input(type="email", name="email", id="email", class="form-control", required)
+        .form-group
+            label(for="phone") Số điện thoại
+            input(type="text", name="phone", id="phone", class="form-control", required)
+        .form-group
+            label(for="password") Mật khẩu
+            input(type="password", name="password", id="password", class="form-control", required)
+        .form-group
+            label(for="role_id") Vai trò
+            select(name="role_id", id="role_id", class="form-control", required)
+                option(value="", disabled selected) Chọn vai trò
+                each role in roles
+                    option(value=role._id) #{role.title}
+                   
+        div(
+            class="form-group"
+            upload-image
+        )
+            label(for="avatar") Ảnh đại diện
+            
+            input(type="file", name="avatar", id="avatar", class="form-control-file", accept="image/*",upload-image-input)
+            // Nút X để huỷ ảnh
+            button(type="button", class="btn btn-danger btn-sm position-absolute", style="display:none;", upload-image-remove) ×
+            img(src="", alt="", upload-image-preview, style="display: none; width:100px; height:100px; object-fit:cover;")
+        .form-group
+            button.btn.btn-primary(type="submit") Tạo tài khoản
+
+    block scripts
+        script(src="/admin/js/quill-editor.js")
+        script(src="/admin/js/products.js")
