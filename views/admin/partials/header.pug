@@ -10,13 +10,11 @@ header.navbar.navbar-expand-lg.navbar-light.bg-light
         li.nav-item
           a.nav-link.active(href="/") Trang chủ
         li.nav-item
-          a.nav-link(href="/products") Sản phẩm
+          a.nav-link(href=prefixAdmin + "/products") Sản phẩm
         li.nav-item
           a.nav-link(href="/about") Giới thiệu
         li.nav-item
           a.nav-link(href="/contact") Liên hệ  
         li.nav-item
-          a.nav-link(href="/login") Đăng nhập
-        li.nav-item
-          a.nav-link(href="/register") Đăng ký
+          a.nav-link(href=prefixAdmin + "/auth/logout") Đăng xuất
         
