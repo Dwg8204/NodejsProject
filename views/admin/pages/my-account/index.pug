@@ -1,0 +1,28 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main
+    h1 Thông tin tài khoản
+        +alert-success(5000)
+        p(class="mb-4") Đây là thông tin tài khoản của bạn.
+        if (account.avatar)
+            img(src=account.avatar, alt="Avatar", class="img-thumbnail mb-3", width="150")
+        else
+            img(src="/admin/images/default-avatar.png", alt="Avatar", class="img-thumbnail mb-3", width="150")
+    p Họ tên: #{account.fullName}
+    p Email: #{account.email}
+    p Số điện thoại: #{account.phone}
+    p Ngày tạo: #{account.createdAt.toLocaleDateString()}
+    p Trạng thái : 
+        if (account.status === 'active')
+            span.text-success Đang hoạt động
+        else
+            span.text-danger Ngừng hoạt động
+    p Phân quyền: 
+        if (role)
+            span #{role.title}
+        else
+            span Chưa có phân quyền nào
+
+    a(href= prefixAdmin + "/my-account/edit", class="btn btn-primary") Sửa thông tin tài khoản
+    a(href= prefixAdmin + "/my-account/change-password", class="btn btn-secondary") Đổi mật khẩu
