@@ -7,6 +7,18 @@ const cookieParser = require('cookie-parser')
 const multer  = require('multer')
 const app = express();
 const path = require('path');
+// socketIO
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require('socket.io');
+const io = new Server(server);
+
+io.on('connection', (socket) => {
+    console.log('a user connected');
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+    });
+});
 
 app.use(methodOverride('_method'))
 app.use(cookieParser())
@@ -47,7 +59,7 @@ app.locals.prefixAdmin = systemConfig.PrefixAdmin;
 route(app);
 routeAdmin(app);
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log('Example app listening at http://localhost:' + port);
     console.log(
         "admin is" + systemConfig.PrefixAdmin 
