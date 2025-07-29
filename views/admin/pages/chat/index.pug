@@ -1,0 +1,29 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main 
+    +alert-success(5000)
+    h1(class="mb-4") Chat
+
+    .card.shadow-sm(style="max-width:600px;margin:auto;")
+        .card-body
+            #chat-box(style="height:350px;overflow-y:auto;background:#f8f9fa;padding:15px;border-radius:5px;margin-bottom:15px;")
+                // Tin nhắn mẫu giữa 2 người
+                .d-flex.mb-2
+                    .bg-primary.text-white.p-2.rounded.me-auto(style="max-width:70%")
+                        | Xin chào! Bạn cần hỗ trợ gì không?
+                .d-flex.justify-content-end.mb-2
+                    .bg-light.p-2.rounded.ms-auto(style="max-width:70%")
+                        | Dạ em muốn hỏi về sản phẩm mới ạ.
+                .d-flex.mb-2
+                    .bg-primary.text-white.p-2.rounded.me-auto(style="max-width:70%")
+                        | Sản phẩm nào bạn quan tâm nhỉ?
+                .d-flex.justify-content-end.mb-2
+                    .bg-light.p-2.rounded.ms-auto(style="max-width:70%")
+                        | Sản phẩm điện thoại iPhone 15 ạ.
+
+            form.mt-3
+                .input-group
+                    input.form-control(type="text", placeholder="Nhập tin nhắn...", disabled)
+                    button.btn.btn-primary(type="button", disabled)
+                        i.fas.fa-paper-plane
