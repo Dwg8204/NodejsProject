@@ -10,6 +10,8 @@ const authRoutes = require('./auth.route');
 const myAccountRoutes = require('./my-account.route');
 const chatRoutes = require('./chat.route');
 
+const authController = require('../../controllers/admin/auth.controller');
+
 module.exports = (app) => {
     app.use(systemConfig.PrefixAdmin + "/dashboard", middlewareAuth.requireAuth, dashboardRoutes);
     app.use(systemConfig.PrefixAdmin + "/test", middlewareAuth.requireAuth, testRoutes); 
@@ -20,4 +22,6 @@ module.exports = (app) => {
     app.use(systemConfig.PrefixAdmin + "/auth", authRoutes);
     app.use(systemConfig.PrefixAdmin + "/my-account", middlewareAuth.requireAuth, myAccountRoutes);
     app.use(systemConfig.PrefixAdmin + "/chat", middlewareAuth.requireAuth, chatRoutes);
+    app.get(systemConfig.PrefixAdmin , authController.login);
+
 }

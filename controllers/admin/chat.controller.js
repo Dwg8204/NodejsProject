@@ -28,14 +28,12 @@ module.exports.index = async (req, res) => {
     // Lấy tất cả tin nhắn
     const chats = await Chat.find({ deleted: false });
 
-    // Tìm user_id khác userId hiện tại (nick đối phương)
     const opponentChat = chats.find(chat => chat.user_id.toString() !== userId);
     let opponent = null;
     if (opponentChat) {
         opponent = await account.findOne({ _id: opponentChat.user_id }).select('fullName avatar');
     }
 
-    // Gắn infoUser cho từng chat
     for (const chat of chats) {
         const infoUser = await account.findOne({ _id: chat.user_id }).select('fullName avatar');
         chat.infoUser = infoUser;

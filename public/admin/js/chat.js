@@ -31,7 +31,6 @@ socket.on('SERVER_RETURN_MESSAGE', (data) => {
         messageElement.classList.add('d-flex', 'mb-2');
 
         if (data.userId === userId) {
-            // Tin nhắn của mình (bên phải, không avatar)
             messageElement.innerHTML = `
                 <div class="bg-primary text-white p-2 rounded shadow-sm ms-auto" style="max-width:70%">
                     <span>${data.content}</span>
@@ -39,7 +38,6 @@ socket.on('SERVER_RETURN_MESSAGE', (data) => {
                 <span class="me-2 align-self-end text-muted fs-7">${new Date(data.createdAt).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', hour12: false })}</span>
             `;
         } else {
-            // Tin nhắn đối phương (bên trái, có avatar)
             messageElement.innerHTML = `
                 <img src="${opponent.avatar}" alt="${opponent.fullName}" width="30" height="30" class="rounded-circle me-2">
                 <div class="bg-white p-2 rounded shadow-sm me-auto" style="max-width:70%">
@@ -52,6 +50,13 @@ socket.on('SERVER_RETURN_MESSAGE', (data) => {
         chatBox.scrollTop = chatBox.scrollHeight;
     } else {
         console.error('Chat box with ID "chat-box" not found.');
+    }
+});
+// scroll chat to bottom
+window.addEventListener('DOMContentLoaded', function() {
+    var chatBox = document.getElementById('chat-box');
+    if (chatBox) {
+        chatBox.scrollTop = chatBox.scrollHeight;
     }
 });
       
