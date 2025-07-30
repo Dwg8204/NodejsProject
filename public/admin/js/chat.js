@@ -61,3 +61,35 @@ window.addEventListener('DOMContentLoaded', function() {
 });
       
 
+// document.querySelector('emoji-picker')
+//   .addEventListener('emoji-click', event => console.log(event.detail));
+const emojiPicker = document.querySelector('emoji-picker');
+if (emojiPicker) {
+    emojiPicker.style.display = 'none';
+}
+
+// Hiện/ẩn emoji-picker khi click icon
+const emojiBtn = document.getElementById('emoji-btn');
+if (emojiBtn && emojiPicker) {
+    emojiBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        emojiPicker.style.display = (emojiPicker.style.display === 'none' || !emojiPicker.style.display) ? 'block' : 'none';
+    });
+
+    // Ẩn emoji-picker khi click ra ngoài
+    document.addEventListener('click', function(e) {
+        if (!emojiPicker.contains(e.target) && e.target !== emojiBtn && !emojiBtn.contains(e.target)) {
+            emojiPicker.style.display = 'none';
+        }
+    });
+
+    // Thêm emoji vào input khi chọn
+    emojiPicker.addEventListener('emoji-click', event => {
+        const contentInput = document.querySelector('.inner-form input[name="content"]');
+        if (contentInput) {
+            contentInput.value += event.detail.unicode;
+            contentInput.focus();
+        }
+        emojiPicker.style.display = 'none';
+    });
+}
