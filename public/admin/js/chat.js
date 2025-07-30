@@ -93,3 +93,27 @@ if (emojiBtn && emojiPicker) {
         emojiPicker.style.display = 'none';
     });
 }
+// Gửi sự kiện typing khi người dùng nhập
+const inputContent = document.querySelector('input[name="content"]');
+if (inputContent) {
+    let typingTimeout;
+    inputContent.addEventListener('input', function() {
+        socket.emit('TYPING', { userId: userId, opponentId: opponent.id });
+        clearTimeout(typingTimeout);
+        typingTimeout = setTimeout(() => {
+            socket.emit('STOP_TYPING', { userId: userId, opponentId: opponent.id });
+        }, 3000); 
+    });
+}
+
+// Hiển thị trạng thái typing khi nhận được sự kiện
+socket.on('TYPING', (data) => {
+    if (data.userId !== userId) {
+        document.getElementById('typing-status').innerText = `${opponent.fullName} đang nhập...`;
+    }
+});
+socket.on('STOP_TYPING', (data) => {
+    if (data.userId !== userId) {
+        document.getElementById('typing-status').innerText = '';
+    }
+});

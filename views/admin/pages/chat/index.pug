@@ -24,7 +24,7 @@ block main
                             .bg-white.p-2.rounded.shadow-sm.me-auto(style="max-width:70%")
                                 span.text-dark #{chat.content}
                             span.ms-2.align-self-end.text-muted.fs-7 #{chat.createdAt.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', hour12: false })}
-
+            #typing-status.text-muted.fs-7.ps-2.pb-2
             // Input chat
             form(class="inner-form", action="", style="display:flex;gap:8px;align-items:center;padding:16px;background:#fff;border-top:1px solid #eee;")
                 input(
