@@ -1,9 +1,10 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
-
 block main 
     +alert-success(5000)
     h1(class="mb-4") Chat
+    include ../../partials/list-btn-user.pug
+
 
     .card.shadow-sm(style="max-width:600px;margin:auto; border:none; background:#fff;")
         .card-body.p-0
