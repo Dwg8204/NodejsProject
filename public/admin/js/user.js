@@ -17,12 +17,53 @@ btnCancelFriend.forEach(function (btn) {
         const userId = btn.getAttribute('btn-cancel-friend');
         btn.style.display = 'none';
         const btnAdd = document.querySelector(`button[btn-add-friend="${userId}"]`);
+        const btnAccept = document.querySelector(`button[btn-accept-friend="${userId}"]`);
         if (btnAdd) {
             btnAdd.style.display = 'inline-block';
+
+        }
+        if (btnAccept) {
+            btnAccept.style.display = 'none';
         }
         console.log(userId);
         console.log('Cancel friend request for user ID:', userId);
         // Gửi sự kiện hủy kết bạn đến server
         socket.emit('CLIENT_CANCEL_FRIEND', userId);
+    });
+});
+
+const btnRefuseFriend = document.querySelectorAll('button[btn-refuse-friend]');
+btnRefuseFriend.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+        const userId = btn.getAttribute('btn-refuse-friend');
+        btn.style.display = 'none';
+        const disabled = document.querySelector(`button[disabled]`);
+        const btnAccept = document.querySelector(`button[btn-accept-friend="${userId}"]`);
+        if (disabled) {
+            disabled.style.display = 'inline-block';
+        }
+        if (btnAccept) {
+            btnAccept.style.display = 'none';
+        }
+        console.log(userId);
+        console.log('Refuse friend request for user ID:', userId);
+        // Gửi sự kiện từ chối kết bạn đến server
+        socket.emit('CLIENT_REFUSE_FRIEND', userId);
+    });
+});
+
+const btnAcceptFriend = document.querySelectorAll('button[btn-accept-friend]');
+btnAcceptFriend.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+        const userId = btn.getAttribute('btn-accept-friend');
+        btn.style.display = 'none';
+        const btnCancel = document.querySelector(`button[btn-cancel-friend="${userId}"]`);
+        if (btnCancel) {
+            btnCancel.style.display = 'none';
+        }
+        console.log(userId);
+        console.log('Accept friend request for user ID:', userId);  
+        // Gửi sự kiện chấp nhận kết bạn đến server
+        socket.emit('CLIENT_ACCEPT_FRIEND', userId);
     });
 });

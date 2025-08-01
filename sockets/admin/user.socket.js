@@ -63,5 +63,36 @@ module.exports = async(res) => {
                     );
                 }
             });
+            socket.on('CLIENT_REFUSE_FRIEND', async (userId) => {
+                if (!userId) {
+                    console.error('User ID is required to refuse friend request.');
+                }
+                // console.log(userId);
+                // console.log(myUserId);
+                // Xóa id của A khỏi requestFriends của B
+                const exitUserAInB = await User.findOne({
+                    _id: userId,
+                    requestFriend: myUserId
+                });
+                if (exitUserAInB) {
+                    await User.updateOne(
+                        { _id: userId },
+                        { $pull: { requestFriend: myUserId } }
+                    );
+                }
+                // Xóa id của B khỏi acceptFriends của A
+                const exitUserBInA = await User.findOne({
+                    _id: myUserId,
+                    acceptFriend: userId
+                });
+                if (exitUserBInA) {
+                    await User.updateOne(
+                        { _id: myUserId },
+                        { $pull: { acceptFriend: userId } }
+                    );
+                }
+            });
+            
+
         });
 };
