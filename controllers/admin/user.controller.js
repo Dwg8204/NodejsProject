@@ -23,3 +23,25 @@ module.exports.notfriend = async (req, res) => {
         accounts: accounts
     });
 }
+
+module.exports.requests = async (req, res) => {
+    userSocket(res);
+    const myId = res.locals.account._id.toString();
+    const myUser = await Account.findOne({
+        _id: myId
+    });
+    const requestFriends = myUser.requestFriend || [];
+    const acceptFriends = myUser.acceptFriend || [];
+    const accounts = await Account.find({
+        $and: [
+            { _id: { $ne: myId } },
+            { _id: { $in: requestFriends } },
+            { status: 'active' },
+            { deleted: false }
+        ]
+    }).select('fullName avatar');
+    res.render('admin/pages/user/request', {
+        pageTitle: 'Danh sách yêu cầu kết bạn',
+        accounts: accounts
+    });
+}

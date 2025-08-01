@@ -33,7 +33,35 @@ module.exports = async(res) => {
                     );
                 }
 
+            });
+            socket.on('CLIENT_CANCEL_FRIEND', async (userId) => {
+                if (!userId) {
+                    console.error('User ID is required to cancel friend request.');
+                }
+                // console.log(userId); 
+                // console.log(myUserId); 
+                // Xóa id của A khỏi acceptFriends của B
+                const exitUserAInB = await User.findOne({
+                    _id: userId,
+                    acceptFriend: myUserId
+                });
+                if (exitUserAInB) {
+                    await User.updateOne(
+                        { _id: userId },
+                        { $pull: { acceptFriend: myUserId } }
+                    );
+                }
+                // Xóa id của B khỏi requestFriends của A
+                const exitUserBInA = await User.findOne({
+                    _id: myUserId,
+                    requestFriend: userId
+                });
+                if (exitUserBInA) {
+                    await User.updateOne(
+                        { _id: myUserId },
+                        { $pull: { requestFriend: userId } }
+                    );
+                }
+            });
         });
-    
-});
 };
