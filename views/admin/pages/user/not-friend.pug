@@ -18,9 +18,19 @@ block main
                                 button(
                                     class="btn btn-primary"
                                     type="button"
-                                    button-add-friend = user._id
+                                    btn-add-friend = user._id
                                 ) Thêm bạn bè
                                 a(
                                     href=prefixAdmin + "/user/" + user._id
                                     class="btn btn-info"
                                 ) Xem chi tiết
+                                button(
+                                    class="btn btn-danger"
+                                    style ="display:none;"
+                                    type="button"
+                                    btn-cancel-friend = user._id
+                                ) Huỷ
+                                
+block scripts
+    script(src="/admin/js/user.js")
+    

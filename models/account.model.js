@@ -32,6 +32,14 @@ const accountSchema = new mongoose.Schema({
     role_id: {
         type: String
     },
+    acceptFriend: Array,
+    requestFriend: Array,
+    friendList: [
+        {
+            user_id: String,
+            room_chat_id: String
+        }
+    ],
     status: {
         type: String,
         default: 'active'
