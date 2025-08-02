@@ -43,8 +43,11 @@ app.set('view engine', 'pug');
 app.use(express.static(`${__dirname}/public`));
 app.use((req, res, next) => {
     res.locals.message = req.flash();
+    res.locals.user = res.locals.account || null; // Ensure user is available in locals
     next();
 });
+
+
 
 // tinymce
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));

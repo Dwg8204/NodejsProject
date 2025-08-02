@@ -19,7 +19,6 @@ module.exports.notfriend = async (req, res) => {
             { deleted: false }
         ]
     }).select('fullName avatar');
-
     res.render('admin/pages/user/not-friend', {
         pageTitle: 'Danh sách người dùng không phải bạn bè',
         accounts: accounts

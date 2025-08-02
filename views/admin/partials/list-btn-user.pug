@@ -1,3 +1,4 @@
+
 .row 
             .col-12 
                 a(
@@ -15,4 +16,10 @@
                 a(
                     href= prefixAdmin + "/user/accepts", 
                     class="btn btn-warning mb-3"
-                ) Lời mời đã nhận
+                )
+                    | Lời mời đã nhận
+                    span(
+                        class="badge bg-secondary ms-2"
+                        style="font-size: 0.8rem;"
+                        badge-user-accept = account.id
+                    ) #{account.acceptFriend.length}

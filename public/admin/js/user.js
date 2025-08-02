@@ -85,3 +85,17 @@ btnRemoveFriend.forEach(function (btn) {
         socket.emit('CLIENT_REMOVE_FRIEND', userId);
     });
 });
+
+
+
+//SERVER_RETURN_LENGTH_ACCEPT_FRIEND
+
+socket.on('SERVER_RETURN_LENGTH_ACCEPT_FRIEND', function (data) {
+    const badgeUserAccept = document.querySelector('span[badge-user-accept]');
+    const userId = badgeUserAccept.getAttribute('badge-user-accept');
+    if (userId === data.userId) {
+        badgeUserAccept.innerHTML = data.lengthAcceptFriends;
+    }
+
+});
+

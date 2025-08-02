@@ -32,7 +32,25 @@ module.exports = async(res) => {
                         { $push: { requestFriend: userId } }
                     );
                 }
+                //Lấy độ dài acceptFriends của B trả về cho B
+                const infoUserB = await User.findOne({
+                    _id: userId
+                }).select('acceptFriend');
 
+                const lengthAcceptFriends = infoUserB ? infoUserB.acceptFriend.length : 0;
+                socket.broadcast.emit('SERVER_RETURN_LENGTH_ACCEPT_FRIEND', {
+                    userId: userId,
+                    lengthAcceptFriends: lengthAcceptFriends
+                });
+                //Lấy độ dài requestFriends của A trả về cho A
+                const infoUserA = await User.findOne({
+                    _id: myUserId
+                }).select('requestFriend');
+                const lengthRequestFriends = infoUserA.requestFriend.length;
+                socket.emit('SERVER_RETURN_LENGTH_REQUEST_FRIEND', {
+                    userId: myUserId,
+                    lengthRequestFriends: lengthRequestFriends
+                });
             });
             socket.on('CLIENT_CANCEL_FRIEND', async (userId) => {
                 if (!userId) {
