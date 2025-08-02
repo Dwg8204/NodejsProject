@@ -92,7 +92,85 @@ module.exports = async(res) => {
                     );
                 }
             });
-            
+            socket.on('CLIENT_ACCEPT_FRIEND', async (userId) => {
+                if (!userId) {
+                    console.error('User ID is required to accept friend request.');
+                }
+                // console.log(userId);
+                // console.log(myUserId);
+                // Thêm id của A vào friendList của B
+                const exitUserAInB = await User.findOne({
+                    _id: userId,
+                    friendList: { $elemMatch: { user_id: myUserId } }
+                });
+                if (!exitUserAInB) {
+                    console.log("Adding myUserId to friendList of userId");
+                    await User.updateOne(
+                        { _id: userId },
+                        { $push: { friendList: { user_id: myUserId } } }
+                    );
+                }
+                // Thêm id của B vào friendList của A
+                const exitUserBInA = await User.findOne({
+                    _id: myUserId,
+                    friendList: { $elemMatch: { user_id: userId } }
+                });
+
+                if (!exitUserBInA) {
+                    console.log("Adding userId to friendList of myUserId");
+                    await User.updateOne(
+                        { _id: myUserId },
+                        { $push: { friendList: { user_id: userId } } }
+                    );
+                }
+                // Xóa id của B khỏi acceptFriends của A
+                const exitUserBInA2 = await User.findOne({
+                    _id: myUserId,
+                    acceptFriend: userId
+                });
+                if (exitUserBInA2) {
+                    await User.updateOne(
+                        { _id: myUserId },
+                        { $pull: { acceptFriend: userId } }
+                    );
+                }
+                // Xóa id của B khỏi requestFriends của A
+                const exitUserAInB2 = await User.findOne({
+                    _id: userId,
+                    requestFriend: myUserId
+                });
+                if (exitUserAInB2) {
+                    await User.updateOne(
+                        { _id: userId },
+                        { $pull: { requestFriend: myUserId } }
+                    );
+                }
+            });
+            socket.on('CLIENT_REMOVE_FRIEND', async (userId) => {
+                if (!userId) {
+                    console.error('User ID is required to remove friend.');
+                }
+                const exitUserAInB = await User.findOne({
+                    _id: userId,
+                    friendList: { $elemMatch: { user_id: myUserId } }
+                });
+                if (exitUserAInB) {
+                    await User.updateOne(
+                        { _id: userId },
+                        { $pull: { friendList: { user_id: myUserId } } }
+                    );
+                }
+                const exitUserBInA = await User.findOne ({
+                    _id: myUserId,
+                    friendList: { $elemMatch: {user_id: userId}}
+                });
+                if (exitUserBInA) {
+                    await User.updateOne(
+                        { _id: myUserId },
+                        { $pull: { friendList: { user_id: userId } } }
+                    );
+                }
+            });
 
         });
 };

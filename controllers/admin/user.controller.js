@@ -8,11 +8,13 @@ module.exports.notfriend = async (req, res) => {
     });
     const requestFriends = myUser.requestFriend || [];
     const acceptFriends = myUser.acceptFriend || [];
+    const listFriend = myUser.friendList.map(friend => friend.user_id) || [];
     const accounts = await Account.find({ 
         $and: [
             { _id: { $ne: myId } },
             { _id: { $nin: requestFriends } },
             { _id: { $nin: acceptFriends } },
+            { _id: { $nin: listFriend } },
             { status: 'active' },
             { deleted: false }
         ]
@@ -64,6 +66,27 @@ module.exports.accepts = async (req, res) => {
     }).select('fullName avatar');
     res.render('admin/pages/user/accept', {
         pageTitle: 'Danh sách bạn bè đã chấp nhận',
+        accounts: accounts
+    });
+}
+
+module.exports.friends = async (req, res) => {
+    userSocket(res);
+    const myId = res.locals.account._id.toString();
+    const myUser = await Account.findOne({
+        _id: myId
+    });
+    const friendList = myUser.friendList || [];
+    const accounts = await Account.find({
+        $and: [
+            { _id: { $ne: myId } },
+            { _id: { $in: friendList.map(friend => friend.user_id) } },
+            { status: 'active' },
+            { deleted: false }  
+        ]
+    }).select('fullName avatar');
+    res.render('admin/pages/user/friends', {
+        pageTitle: 'Danh sách bạn bè',
         accounts: accounts
     });
 }

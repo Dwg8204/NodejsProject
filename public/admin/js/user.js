@@ -57,7 +57,7 @@ btnAcceptFriend.forEach(function (btn) {
     btn.addEventListener('click', function () {
         const userId = btn.getAttribute('btn-accept-friend');
         btn.style.display = 'none';
-        const btnCancel = document.querySelector(`button[btn-cancel-friend="${userId}"]`);
+        const btnCancel = document.querySelector(`button[btn-refuse-friend="${userId}"]`);
         if (btnCancel) {
             btnCancel.style.display = 'none';
         }
@@ -65,5 +65,23 @@ btnAcceptFriend.forEach(function (btn) {
         console.log('Accept friend request for user ID:', userId);  
         // Gửi sự kiện chấp nhận kết bạn đến server
         socket.emit('CLIENT_ACCEPT_FRIEND', userId);
+    });
+});
+
+
+const btnRemoveFriend = document.querySelectorAll('button[btn-remove-friend]');
+btnRemoveFriend.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+        const userId = btn.getAttribute('btn-remove-friend');
+        btn.style.display = 'none';
+        const btnAdd = document.querySelector(`button[btn-add-friend="${userId}"]`);
+        const btnCancel = document.querySelector(`button[btn-cancel-friend="${userId}"]`);
+        if (btnAdd) {
+            btnAdd.style.display = 'inline-block';
+        }
+        console.log(userId);
+        console.log('Remove friend for user ID:', userId);
+        // Gửi sự kiện xóa bạn bè đến server
+        socket.emit('CLIENT_REMOVE_FRIEND', userId);
     });
 });
