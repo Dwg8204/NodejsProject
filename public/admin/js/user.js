@@ -1,3 +1,6 @@
+
+
+
 const btnAddFriend = document.querySelectorAll('button[btn-add-friend]');
 btnAddFriend.forEach(function (btn) {
     btn.addEventListener('click', function () {
@@ -98,4 +101,35 @@ socket.on('SERVER_RETURN_LENGTH_ACCEPT_FRIEND', function (data) {
     }
 
 });
+//SERVER_RETURN_LENGTH_FRIENDS
+socket.on('SERVER_RETURN_LENGTH_FRIENDS', function (data) {
+    const badgeUserFriends = document.querySelector('span[badge-user-friends]');
+    const userId = badgeUserFriends.getAttribute('badge-user-friends');
+    if (userId === data.userId) {
+        badgeUserFriends.innerHTML = data.lengthFriends;
+    }
+});
+//SERVER_RETURN_LENGTH_FRIEND_REQUEST
+socket.on('SERVER_RETURN_LENGTH_FRIEND_REQUEST', function (data) {
+    const badgeUserRequest = document.querySelector('span[badge-user-request]');
+    const userId = badgeUserRequest.getAttribute('badge-user-request');
+    if (userId === data.userId) {
+        badgeUserRequest.innerHTML = data.lengthRequestFriends;
+    }
+});
 
+// SERVER_RETURN_USER_ONLINE
+socket.on('SERVER_RETURN_USER_ONLINE', function (userId) {
+    const userStatusElement = document.querySelector(`div[data-user-status="${userId}"]`);
+    if (userStatusElement) {
+        userStatusElement.innerHTML = '<span class="text-success">Online</span>';
+    }
+});
+
+// SERVER_RETURN_USER_OFFLINE
+socket.on('SERVER_RETURN_USER_OFFLINE', function (userId) {
+    const userStatusElement = document.querySelector(`div[data-user-status="${userId}"]`);
+    if (userStatusElement) {
+        userStatusElement.innerHTML = '<span class="text-secondary">Offline</span>';
+    }
+});

@@ -14,6 +14,11 @@ block main
                         h5 #{user.fullName}
                         div(class= "inner-info")
                             div(class="inner-name") #{user.fullName}
+                            div(class="inner-status" data-user-status=user._id)
+                                if user.statusOnline
+                                    span.text-success Online
+                                else
+                                    span.text-secondary Offline
                             div(class="inner-buttons")
                                 button(
                                     class="btn btn-primary"
@@ -30,6 +35,11 @@ block main
                                     type="button"
                                     btn-remove-friend = user._id
                                 ) Huỷ kết bạn 
+                                button(
+                                    class="btn btn-secondary"
+                                    type="button"
+                                    btn-chat = user._id
+                                ) Nhắn tin
                                 
 block scripts
     script(src="/admin/js/user.js")

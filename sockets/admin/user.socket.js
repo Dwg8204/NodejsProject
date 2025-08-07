@@ -1,10 +1,29 @@
 const Chat = require('../../models/chat.model');
 const User = require('../../models/account.model');
-
+const onlineUsers = new Set();
 module.exports = async(res) => {
     const myUserId = res.locals.account._id.toString();
     const fullName = res.locals.account.fullName;
     _io.once('connection', (socket) => {
+            socket.on('CLIENT_USER_ONLINE', async (userId) => {
+                if (!userId) {
+                    console.error('User ID is required to set online status.');
+                    return;
+                }
+                socket.broadcast.emit('SERVER_RETURN_USER_ONLINE', userId);
+            });
+            socket.on('disconnect', async () => {
+                const userId = myUserId;
+                if(userId) {
+                    await User.updateOne(
+                        { _id: userId },
+                        { statusOnline: false }
+                    );
+                }
+                socket.broadcast.emit('SERVER_RETURN_USER_OFFLINE', userId);
+            });
+
+
             socket.on('CLIENT_ADD_FRIEND', async (userId) => {
                 // console.log(userId); //ID CỦA BẠN ĐƯỢC THÊM
                 // console.log(myUserId); //ID CỦA MÌNH

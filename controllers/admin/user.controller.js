@@ -83,7 +83,7 @@ module.exports.friends = async (req, res) => {
             { status: 'active' },
             { deleted: false }  
         ]
-    }).select('fullName avatar');
+    }).select('fullName avatar statusOnline');
     res.render('admin/pages/user/friends', {
         pageTitle: 'Danh sách bạn bè',
         accounts: accounts

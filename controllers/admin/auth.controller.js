@@ -28,6 +28,11 @@ module.exports.loginPost = async (req, res) => {
     });
     
     res.cookie('token', account.token);
+    await Account.updateOne(
+        { _id: account._id },
+        { statusOnline: true}
+    );
+    
     req.flash('success', 'Đăng nhập thành công');
     return res.redirect(systemConfig.PrefixAdmin + '/dashboard');
 }

@@ -44,6 +44,10 @@ const accountSchema = new mongoose.Schema({
         type: String,
         default: 'active'
     },
+    statusOnline: {
+        type: Boolean,
+        default: false
+    },
     deleted: {
         type: Boolean,
         default: false
