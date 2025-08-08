@@ -83,7 +83,13 @@ module.exports.friends = async (req, res) => {
             { status: 'active' },
             { deleted: false }  
         ]
-    }).select('fullName avatar statusOnline');
+    }).select('fullName avatar');
+    accounts.forEach(account => {
+        const infoUser = friendList.find(friend => friend.user_id.toString() === account._id.toString());
+        if (infoUser) {
+            account.roomChatId = infoUser.room_chat_id; // Thêm roomChatId vào tài khoản
+        }
+    });
     res.render('admin/pages/user/friends', {
         pageTitle: 'Danh sách bạn bè',
         accounts: accounts

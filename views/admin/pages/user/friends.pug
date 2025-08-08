@@ -35,11 +35,7 @@ block main
                                     type="button"
                                     btn-remove-friend = user._id
                                 ) Huỷ kết bạn 
-                                button(
-                                    class="btn btn-secondary"
-                                    type="button"
-                                    btn-chat = user._id
-                                ) Nhắn tin
+                                a(href="/chat/" + user.roomChatId, class="btn btn-success") Nhắn tin
                                 
 block scripts
     script(src="/admin/js/user.js")

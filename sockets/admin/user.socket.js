@@ -1,5 +1,7 @@
 const Chat = require('../../models/chat.model');
 const User = require('../../models/account.model');
+const RoomChat = require('../../models/room-chat.model');
+
 const onlineUsers = new Set();
 module.exports = async(res) => {
     const myUserId = res.locals.account._id.toString();
@@ -136,28 +138,47 @@ module.exports = async(res) => {
                 // console.log(userId);
                 // console.log(myUserId);
                 // Thêm id của A vào friendList của B
+                
                 const exitUserAInB = await User.findOne({
                     _id: userId,
                     friendList: { $elemMatch: { user_id: myUserId } }
                 });
-                if (!exitUserAInB) {
-                    console.log("Adding myUserId to friendList of userId");
-                    await User.updateOne(
-                        { _id: userId },
-                        { $push: { friendList: { user_id: myUserId } } }
-                    );
-                }
                 // Thêm id của B vào friendList của A
                 const exitUserBInA = await User.findOne({
                     _id: myUserId,
                     friendList: { $elemMatch: { user_id: userId } }
                 });
+               //Tạo phòng chat chung
+                let roomChat;
+                if (!exitUserAInB || !exitUserBInA) {
+                    roomChat = new RoomChat({
+                        typeRoom: 'friend',
+                        status: 'active',
+                        users: [
+                            { userId: myUserId, role: 'superadmin' },
+                            { userId: userId, role: 'superadmin' }
+                        ]
+                    });
+                    await roomChat.save();
+                    console.log("Room chat created successfully");
+                }
+                if (!exitUserAInB) {
+                    console.log("Adding myUserId to friendList of userId");
+                    await User.updateOne(
+                        { _id: userId },
+                        { $push: { friendList: { 
+                            user_id: myUserId,
+                            room_chat_id: roomChat._id
+                        } } }
+                    );
+                }
+                
 
                 if (!exitUserBInA) {
                     console.log("Adding userId to friendList of myUserId");
                     await User.updateOne(
                         { _id: myUserId },
-                        { $push: { friendList: { user_id: userId } } }
+                        { $push: { friendList: { user_id: userId, room_chat_id: roomChat._id } } }
                     );
                 }
                 // Xóa id của B khỏi acceptFriends của A
