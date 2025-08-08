@@ -38,9 +38,9 @@ module.exports.createPost = async (req, res) => {
         req.flash('error', 'Email đã tồn tại');
         return res.redirect(systemConfig.PrefixAdmin + '/accounts/create');
     }
-    if (req.file) {
-        req.body.avatar = req.file.filename;
-    }
+    // if (req.file) {
+    //     req.body.avatar = req.file.filename;
+    // }
     const account = new Account(req.body);
     await account.save();
     res.redirect(systemConfig.PrefixAdmin + '/accounts');

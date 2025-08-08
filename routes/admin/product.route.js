@@ -17,7 +17,6 @@ router.get('/create', controller.create);
 router.post('/create',
     upload.single('thumbnail'),
     uploadMiddleware,
-
     validate.createPost,
     controller.createPost
 );

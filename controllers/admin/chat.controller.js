@@ -1,14 +1,20 @@
 const Chat = require('../../models/chat.model');
 const account = require('../../models/account.model');
 const chatSocket = require('../../sockets/admin/chat.socket');
+//get: chat/:roomChatId
 module.exports.index = async (req, res) => {
+    const roomChatId = req.params.roomChatId;
+    console.log(roomChatId);
     const userId = res.locals.account._id.toString();
     const fullName = res.locals.account.fullName;
-    chatSocket(res);
+    chatSocket(req,res);
     // Lấy tất cả tin nhắn
-    const chats = await Chat.find({ deleted: false });
+    const chats = await Chat.find({ 
+        room_chat_id: roomChatId,
+        deleted: false });
 
-    const opponentChat = chats.find(chat => chat.user_id.toString() !== userId);
+    const opponentChat = chats.find(
+        chat => chat.user_id.toString() !== userId);
     let opponent = null;
     if (opponentChat) {
         opponent = await account.findOne({ _id: opponentChat.user_id }).select('fullName avatar');
