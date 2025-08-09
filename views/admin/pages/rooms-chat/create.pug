@@ -1,0 +1,21 @@
+extends ../../layouts/default.pug 
+include ../../mixins/pagination.pug
+
+block main
+    h1.mb-4 Tạo phòng chat mới
+
+    form(method="POST", action=prefixAdmin + "/rooms-chat/create", class="card p-4 shadow-sm", style="max-width:500px; margin:auto;")
+        .form-group
+            label.form-label(for="title") Tên phòng chat
+            input#title.form-control(type="text", name="title", placeholder="Nhập tên phòng chat", required)
+        .form-group
+            label.form-label.mb-2 Chọn thành viên
+            
+            .border.rounded.p-3(style="max-height:200px;overflow-y:auto;")
+                each friend in listFriend
+                    div.form-check
+                        input.form-check-input(type="checkbox", name="usersId", id="user-#{friend.user_id}", value=friend.user_id)
+                        label.form-check-label(for="user-#{friend.user_id}") #{friend.infoFriend.fullName}
+
+        .form-group
+            button.btn.btn-primary.mt-3(type="submit") Tạo phòng

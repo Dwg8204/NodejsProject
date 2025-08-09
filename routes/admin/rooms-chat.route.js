@@ -3,6 +3,7 @@ const router = express.Router();
 const controller = require('../../controllers/admin/rooms-chat.controller');
 const chatMiddleware = require('../../middlewares/admin/chat.middleware');
 router.get('/', controller.index);
-
+router.get('/create', controller.create);
+router.post('/create', controller.createPost);
 
 module.exports = router;
