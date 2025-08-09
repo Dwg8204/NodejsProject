@@ -11,16 +11,17 @@ block main
                 class="btn btn-primary"
             ) Tạo phòng chat mới
     .row 
-        .col-6 
-            div(class="box-room")
-                div(class="inner-avatar")
-                    img(src="/images/room-avatar.png", alt="Phòng abc", class="img-fluid")
-                div(class="inner-info")
-                    div(class="inner-name")
-                        h3 Phòng abc
-                    div(class="inner-buttons")
-                        a(
-                            href="#"
-                            class="btn btn-success"
-                        ) Tham gia
+        each room in listRoomChat
+            .col-6 
+                div(class="box-room")
+                    div(class="inner-avatar")
+                        img(src="/images/room-avatar.png", alt=room.title, class="img-fluid")
+                    div(class="inner-info")
+                        div(class="inner-name")
+                            h3 #{room.title}
+                        div(class="inner-buttons")
+                            a(
+                                href=prefixAdmin + "/chat/" + room.id
+                                class="btn btn-success"
+                            ) Tham gia
 

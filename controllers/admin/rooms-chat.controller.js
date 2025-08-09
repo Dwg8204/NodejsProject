@@ -2,8 +2,19 @@ const User = require('../../models/account.model');
 const RoomChat = require('../../models/room-chat.model');
 const systemConfig = require('../../config/system');
 module.exports.index = async (req, res) => {
+    const userId = res.locals.account.id;
+    const listRoomChat = await RoomChat.find({
+        typeRoom: "group",
+        users: {
+            $elemMatch: {
+                userId: userId
+            }
+        },
+        deleted: false
+    });
     res.render('admin/pages/rooms-chat/index', {
-        pageTitle: 'Rooms Chat'
+        pageTitle: 'Rooms Chat',
+        listRoomChat: listRoomChat
     });
 };
 

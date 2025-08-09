@@ -21,7 +21,7 @@ block main
                                 span #{chat.content}
                             span.me-2.align-self-end.text-muted.fs-7 #{chat.createdAt.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', hour12: false })}
                         else
-                            img(src=opponent.avatar, alt=opponent.fullName, width="30", height="30", class="rounded-circle me-2")
+                            img(src=chat.infoUser.avatar || '/images/user-avatar.png', alt=chat.infoUser.fullName, width="30", height="30", class="rounded-circle me-2")
                             .bg-white.p-2.rounded.shadow-sm.me-auto(style="max-width:70%")
                                 span.text-dark #{chat.content}
                             span.ms-2.align-self-end.text-muted.fs-7 #{chat.createdAt.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', hour12: false })}
