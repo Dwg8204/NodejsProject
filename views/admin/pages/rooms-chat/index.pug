@@ -1,0 +1,26 @@
+extends ../../layouts/default.pug 
+include ../../mixins/pagination.pug
+
+block main
+    h1 Rooms Chat
+    p Đây là trang quản lý các phòng chat.
+    .row 
+        .col-12 
+            a(
+                href=prefixAdmin + "/rooms-chat/create"
+                class="btn btn-primary"
+            ) Tạo phòng chat mới
+    .row 
+        .col-6 
+            div(class="box-room")
+                div(class="inner-avatar")
+                    img(src="/images/room-avatar.png", alt="Phòng abc", class="img-fluid")
+                div(class="inner-info")
+                    div(class="inner-name")
+                        h3 Phòng abc
+                    div(class="inner-buttons")
+                        a(
+                            href="#"
+                            class="btn btn-success"
+                        ) Tham gia
+
